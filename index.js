@@ -7,6 +7,14 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gameIndex.html'));
 });
 
+app.get('/chess', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'chess', 'index.html'));
+});
+
+app.get('/pac-man', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'pacman','index.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
