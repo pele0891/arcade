@@ -7,11 +7,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'gameIndex.html'));
 });
 
-app.get('/index', (req, res) => {
+app.get('/chess', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'chess', 'index.html'));
 });
 
-app.get('/index', (req, res) => {
+app.get('/pacman', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pacman','index.html'));
 });
 
