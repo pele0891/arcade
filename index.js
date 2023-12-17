@@ -1,20 +1,18 @@
 const express = require('express');
 const path = require('path');
+const http = require('http');
+const exp = require('constants');
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'gameIndex.html'));
-});
+app.use(express.static('public'))
 
-app.get('/chess', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'chess', 'index.html'));
-});
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'gameIndex.html'))
+} )
 
-app.get('/pacman', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'pacman','index.html'));
-});
+app.set('port', port)
+const server = http.createServer(app)
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+server.listen(port, () => console.log(`server running on port ${port}`))
