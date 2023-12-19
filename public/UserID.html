@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Username</title>
+</head>
+<body>
+    <h1>Create Username</h1>
+    <label for="username">Username:</label>
+    <input type="text" id="username" required>
+    <button id="submitBtn">Submit</button>
+
+    <script type="module">
+        // Replace 'your-api-url' and 'your-api-key' with your Supabase project credentials
+        import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const supabase = createClient('https://fgfiigtbbzpjsiccdqxo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZnZmlpZ3RiYnpwanNpY2NkcXhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI5NDIyMDgsImV4cCI6MjAxODUxODIwOH0.e3AYcV2_UrpJn-ANz79dA1AZPCicITHQaGpl2WkjTIw');
+
+            async function createUsername() {
+                const usernameInput = document.getElementById('username');
+                const username = usernameInput.value.trim();
+
+                if (!username) {
+                    alert('Please enter a username.');
+                    return;
+                }
+
+                try {
+                    // Check if the username already exists
+                    const { data: existingUsernames, error } = await supabase
+                        .from('usernames')
+                        .select('username')
+                        .eq('username', username);
+
+                    if (error) {
+                        throw error;
+                    }
+
+                    if (existingUsernames.length > 0) {
+                        alert('Username already exists. Please choose a different one.');
+                        return;
+                    }
+
+                    // Insert the new username into the 'usernames' table
+                    const { data, insertError } = await supabase
+                        .from('usernames')
+                        .insert([{ username }]);
+
+                    if (insertError) {
+                        throw insertError;
+                    }
+
+                    console.log('Username created successfully:', data);
+                    alert('Username created successfully!');
+
+                    window.location.href = 'gameIndex.html';
+                } catch (error) {
+                    console.error('Error creating username:', error.message);
+                    alert('An error occurred while creating the username. Please try again.');
+                }
+            }
+
+            // Add an event listener to the button
+            document.getElementById('submitBtn').addEventListener('click', createUsername);
+        });
+    </script>
+</body>
+</html>

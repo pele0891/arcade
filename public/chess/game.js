@@ -13,11 +13,14 @@ const queenBlack = document.getElementById("queenBlack");
 const kingWhite = document.getElementById("kingWhite");
 const kingBlack = document.getElementById("kingBlack");
 
-//fix checkmante
-//castle
 //add multiplayer
+// -add multiple people
+// -create lobby
+// pvp or pve
 //chess bot api
+//castle
 //change to dictionary
+//add multiplayer pacman
 
 let oneBlockSize = 80;
 
