@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 app.use(express.static('public'))
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'gameIndex.html'))
+    res.sendFile(path.join(__dirname, 'public', 'UserID.html'))
 } )
 
 app.set('port', port)
