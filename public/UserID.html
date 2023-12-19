@@ -6,10 +6,18 @@
     <title>Create Username</title>
 </head>
 <body>
-    <h1>Create Username</h1>
-    <label for="username">Username:</label>
+    <h1>Create or Enter Username</h1>
+    
+    <!-- Section for creating a new username -->
+    <label for="username">Create Username:</label>
     <input type="text" id="username" required>
-    <button id="submitBtn">Submit</button>
+    <button id="submitBtn" onclick="createUsername()">Submit</button>
+
+    <!-- Section for entering an existing username -->
+    <hr>
+    <label for="existingUsername">Enter Existing Username:</label>
+    <input type="text" id="existingUsername" required>
+    <button id="checkExistingBtn" onclick="checkExistingUsername()">Check Existing</button>
 
     <script type="module">
         // Replace 'your-api-url' and 'your-api-key' with your Supabase project credentials
@@ -17,6 +25,7 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             const supabase = createClient('https://fgfiigtbbzpjsiccdqxo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZnZmlpZ3RiYnpwanNpY2NkcXhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI5NDIyMDgsImV4cCI6MjAxODUxODIwOH0.e3AYcV2_UrpJn-ANz79dA1AZPCicITHQaGpl2WkjTIw');
+            console.log(supabase);
 
             async function createUsername() {
                 const usernameInput = document.getElementById('username');
@@ -62,8 +71,42 @@
                 }
             }
 
-            // Add an event listener to the button
+            async function checkExistingUsername() {
+                const existingUsernameInput = document.getElementById('existingUsername');
+                const existingUsername = existingUsernameInput.value.trim();
+
+                if (!existingUsername) {
+                    alert('Please enter an existing username.');
+                    return;
+                }
+
+                try {
+                    // Check if the username exists
+                    const { data: existingUsernames, error } = await supabase
+                        .from('usernames')
+                        .select('username')
+                        .eq('username', existingUsername);
+
+                    if (error) {
+                        throw error;
+                    }
+
+                    if (existingUsernames.length === 0) {
+                        alert('Username does not exist. Please enter a valid username.');
+                        return;
+                    }
+
+                    // Username exists, navigate to gameIndex.html
+                    window.location.href = 'gameIndex.html';
+                } catch (error) {
+                    console.error('Error checking existing username:', error.message);
+                    alert('An error occurred while checking the existing username. Please try again.');
+                }
+            }
+
+            // Add event listeners to the buttons
             document.getElementById('submitBtn').addEventListener('click', createUsername);
+            document.getElementById('checkExistingBtn').addEventListener('click', checkExistingUsername);
         });
     </script>
 </body>
