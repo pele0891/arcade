@@ -25,7 +25,7 @@
     <script type = module>
         document.addEventListener('DOMContentLoaded', function () {
             // Retrieve the stored username from localStorage
-            const storedUsername = localStorage.getItem('username');
+            const storedUsername = sessionStorage.getItem('username');
 
             // Display the username in the HTML element
             const usernameDisplay = document.getElementById('usernameDisplay');
@@ -34,6 +34,7 @@
             } else {
                 // Handle the case where the username is not available
                 usernameDisplay.textContent = 'Username not found.';
+                console.log(storedUsername);
             }
         });
     </script>

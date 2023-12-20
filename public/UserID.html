@@ -58,7 +58,7 @@
 
                     console.log('Username created successfully:', data);
                     alert('Username created successfully!');
-                    localStorage.setItem('username', username);
+                    sessionStorage.setItem('username', username);
                     window.location.href = './gameIndex.html';
                 } catch (error) {
                     console.error('Error creating username:', error.message);
@@ -92,7 +92,7 @@
                     }
 
                     // Username exists, navigate to gameIndex.html
-                    localStorage.setItem('username', existingUsername);
+                    sessionStorage.setItem('username', existingUsername);
                     window.location.href = './gameIndex.html';
                 } catch (error) {
                     console.error('Error checking existing username:', error.message);
