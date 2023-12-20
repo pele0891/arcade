@@ -20,13 +20,8 @@
     <button id="checkExistingBtn" onclick="checkExistingUsername()">Check Existing</button>
 
     <script type="module">
-        // Replace 'your-api-url' and 'your-api-key' with your Supabase project credentials
-        import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
+        import supabase from './supabaseClient.js';
         document.addEventListener('DOMContentLoaded', function () {
-            const supabase = createClient('https://fgfiigtbbzpjsiccdqxo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZnZmlpZ3RiYnpwanNpY2NkcXhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI5NDIyMDgsImV4cCI6MjAxODUxODIwOH0.e3AYcV2_UrpJn-ANz79dA1AZPCicITHQaGpl2WkjTIw');
-            console.log(supabase);
-
             async function createUsername() {
                 const usernameInput = document.getElementById('username');
                 const username = usernameInput.value.trim();
@@ -63,7 +58,7 @@
 
                     console.log('Username created successfully:', data);
                     alert('Username created successfully!');
-
+                    localStorage.setItem('username', username);
                     window.location.href = 'gameIndex.html';
                 } catch (error) {
                     console.error('Error creating username:', error.message);
@@ -97,6 +92,7 @@
                     }
 
                     // Username exists, navigate to gameIndex.html
+                    localStorage.setItem('username', existingUsername);
                     window.location.href = 'gameIndex.html';
                 } catch (error) {
                     console.error('Error checking existing username:', error.message);

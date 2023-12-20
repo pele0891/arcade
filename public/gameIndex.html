@@ -9,10 +9,34 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>CHESS</title>
+    <style>
+      #usernameDisplay {
+          position: fixed;
+          top: 10px;
+          left: 1000px;
+          background-color: "white";
+          padding: 10px;
+      }
+    </style>
   </head>
   <body>
     <h1>ARCADE</h1>
+    <div id="usernameDisplay"></div>
+    <script type = module>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Retrieve the stored username from localStorage
+            const storedUsername = localStorage.getItem('username');
 
+            // Display the username in the HTML element
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            if (storedUsername) {
+                usernameDisplay.textContent = `Welcome, ${storedUsername}!`;
+            } else {
+                // Handle the case where the username is not available
+                usernameDisplay.textContent = 'Username not found.';
+            }
+        });
+    </script>
     <a class="btn" href="chess/index.html">
         Chess
       </a>
