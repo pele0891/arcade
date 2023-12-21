@@ -25,8 +25,84 @@
         <img id = "kingWhite" src = "assets/kingWhite.png" alt = "">
         <img id = "kingBlack" src = "assets/kingBlack.png" alt = "">
     </div>
-    <script src = "piece.js"></script>
-    <script src = "mechanic.js"></script>
-    <script src = "game.js"></script>
+    <script src="piece.js"></script>
+    <script src="mechanic.js"></script>
+    <script src="game.js"></script>
+    <script type="module">
+        import supabaseClient from '../supabaseClient.js';
+
+        // Assume you have a supabase client initialized as 'supabaseClient'
+
+        // Function to get the current user's username from Supabase
+        async function getUsernameFromSupabase() {
+            const { data, error } = await supabaseClient
+                .from('usernames')
+                .select('username')
+                .single();
+
+            if (error) {
+                console.error('Error fetching username:', error.message);
+                return null;
+            }
+
+            return data ? data.username : null;
+        }
+
+        // Function to create or join a game lobby
+        async function createOrJoinGameLobby() {
+            const lobbyId = 'unique-lobby-id'; // Generate a unique lobby ID
+
+            // Check if the lobby exists
+            const { data: existingLobby, error: lobbyError } = await supabaseClient
+                .from('lobbies')
+                .select('*')
+                .eq('lobby_id', lobbyId)
+                .single();
+
+            if (lobbyError) {
+                console.error('Error checking lobby:', lobbyError.message);
+                return;
+            }
+
+            if (existingLobby) {
+                // Lobby exists, join the existing game
+                console.log('Joining existing lobby:', existingLobby);
+            } else {
+                // Lobby doesn't exist, create a new one
+                const { data: newLobby, error: createError } = await supabaseClient
+                    .from('lobbies')
+                    .upsert([
+                        { lobby_id: lobbyId, player1: 'player1-username' },
+                        // Add more lobby details as needed
+                    ]);
+
+                if (createError) {
+                    console.error('Error creating lobby:', createError.message);
+                    return;
+                }
+
+                console.log('New lobby created:', newLobby);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', async function () {
+            const username = await getUsernameFromSupabase();
+
+            if (username) {
+                console.log('Username:', username);
+                // Use the username as needed in your game logic
+
+                // Create or join a game lobby
+                createOrJoinGameLobby();
+
+                gameLoop();
+
+                document.addEventListener('click', movePiece);
+                //run gameloop() that is in game.js
+            } else {
+                console.log('Username not found.');
+            }
+
+        });
+    </script>
 </body>
 </html>
